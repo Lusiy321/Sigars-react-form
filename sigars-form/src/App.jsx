@@ -3,8 +3,9 @@ import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import AddProductForm from "./components/AddProductForm";
 import PlaceOrderForm from "./components/PlaceOrderForm";
 
-export const tg = window.Telegram.WebApp;
+const tg = window.Telegram.WebApp;
 function App() {
+  tg.ready();
   const handleAddProduct = (product) => {
     console.log(product);
   };

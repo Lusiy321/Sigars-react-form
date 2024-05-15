@@ -1,12 +1,17 @@
 import React from "react";
-import tg from "../App";
+
+const tg = window.Telegram.WebApp;
 function PlaceOrderForm({ products, onSubmit }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
     const order = {
+      name: tg.initDataUnsafe?.user?.first_name,
+      tg_owner: tg.initDataUnsafe?.user?.id,
       product: formData.get("product"),
       quantity: formData.get("quantity"),
+      phone: formData.get("phone"),
+      adress: formData.get("adress"),
     };
     onSubmit(order);
     tg.close();
@@ -19,6 +24,7 @@ function PlaceOrderForm({ products, onSubmit }) {
         style={{ width: "300px", margin: "100px auto" }}
       >
         <h1>Замовлення</h1>
+        <p>User id: {tg.initDataUnsafe?.user?.id}</p>
         <div style={{ marginBottom: "10px" }}>
           <select
             name="product"
@@ -49,10 +55,37 @@ function PlaceOrderForm({ products, onSubmit }) {
             }}
           />
         </div>
+        <div style={{ marginBottom: "10px" }}>
+          <input
+            type="text"
+            name="phone"
+            placeholder="Ваш телефон"
+            style={{
+              width: "100%",
+              padding: "10px",
+              borderRadius: "5px",
+              border: "1px solid #ccc",
+            }}
+          />
+        </div>
+        <div style={{ marginBottom: "10px" }}>
+          <input
+            type="text"
+            name="adress"
+            placeholder="Адреса доставки"
+            style={{
+              width: "100%",
+              padding: "10px",
+              borderRadius: "5px",
+              border: "1px solid #ccc",
+            }}
+          />
+        </div>
         <div>
           <button
             type="submit"
             style={{
+              marginLeft: "10px",
               width: "100%",
               backgroundColor: "#007bff",
               color: "white",
