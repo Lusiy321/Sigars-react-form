@@ -7,19 +7,21 @@ const tg = window.Telegram.WebApp;
 function App() {
   const [products, setProducts] = useState([]);
   useEffect(() => {
+    tg.ready();
+  }, []);
+
+  async function response() {
     try {
-      const response = async () =>
-        await fetch("https://sigars-trade-bot.onrender.com/product");
-      const data = response.json();
+      const res = await fetch("https://sigars-trade-bot.onrender.com/product");
+      const data = await res.json();
+      console.log(data);
       setProducts(data);
     } catch (error) {
       console.error("Error fetching products:", error);
     }
-
-    tg.ready();
-  }, []);
+  }
+  response();
   const handleAddProduct = async (product) => {
-    console.log(product);
     await fetch(`https://sigars-trade-bot.onrender.com/create-product`, {
       method: "POST",
       headers: {
