@@ -7,14 +7,24 @@ function PlaceOrderForm({ products, onSubmit }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
+    const selectedProduct = products.find(
+      (product) => product.name === formData.get("product")
+    );
     const order = {
       name: tg.initDataUnsafe?.user?.first_name,
       tg_owner: tg.initDataUnsafe?.user?.id,
-      product: formData.get("product"),
+      product: [
+        {
+          name: formData.get("product"),
+          volume: formData.get("quantity"),
+          price: selectedProduct ? selectedProduct.price : 0,
+        },
+      ],
       quantity: formData.get("quantity"),
       phone: formData.get("phone"),
       adress: formData.get("adress"),
     };
+    console.log(order);
     onSubmit(order);
     tg.close();
   };
@@ -51,7 +61,7 @@ function PlaceOrderForm({ products, onSubmit }) {
           >
             {products.map((product, index) => (
               <option key={index} value={product.name}>
-                {product.name}
+                {product.name} - {product.price} грн.
               </option>
             ))}
           </select>
@@ -67,7 +77,7 @@ function PlaceOrderForm({ products, onSubmit }) {
               borderRadius: "5px",
               border: "1px solid #ccc",
             }}
-          />
+          />{" "}
         </div>
         <div style={{ marginBottom: "10px" }}>
           <input

@@ -14,7 +14,7 @@ function App() {
     try {
       const res = await fetch("https://sigars-trade-bot.onrender.com/product");
       const data = await res.json();
-      console.log(data);
+
       setProducts(data);
     } catch (error) {
       console.error("Error fetching products:", error);
@@ -32,9 +32,15 @@ function App() {
     return;
   };
 
-  const handlePlaceOrder = (order) => {
-    // Handle placing order logic here
-    console.log("Placing order:", order);
+  const handlePlaceOrder = async (order) => {
+    await fetch(`https://sigars-trade-bot.onrender.com/create-order`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(order),
+    });
+    return;
   };
 
   return (
