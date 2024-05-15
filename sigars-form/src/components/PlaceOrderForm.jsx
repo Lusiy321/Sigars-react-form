@@ -24,7 +24,7 @@ function PlaceOrderForm({ products, onSubmit }) {
         style={{ width: "300px", margin: "100px auto" }}
       >
         <h1>Замовлення</h1>
-        <p>User id: {tg.initDataUnsafe?.user?.id}</p>
+        <p>User id: {tg.initDataUnsafe?.user}</p>
         <div style={{ marginBottom: "10px" }}>
           <select
             name="product"

@@ -43,8 +43,8 @@ function App() {
 const Home = () => (
   <div>
     Hello
-    <Link to="/add-product">Add Product</Link>
-    <Link to="/place-order">Place Order</Link>
+    <Link to="/product">Add Product</Link>
+    <Link to="/order">Place Order</Link>
   </div>
 );
 
