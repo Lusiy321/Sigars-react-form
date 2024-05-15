@@ -25,8 +25,20 @@ function PlaceOrderForm({ products, onSubmit }) {
         onSubmit={handleSubmit}
         style={{ width: "300px", margin: "100px auto" }}
       >
-        <h1>Замовлення</h1>
-        <p>User id: {tg.initDataUnsafe?.user?.id}</p>
+        <h1
+          style={{
+            marginLeft: "10px",
+            padding: "10px",
+            paddingLeft: "40px",
+            borderRadius: "5px",
+            marginBottom: "20px",
+            backgroundColor: "#007bff",
+            color: "#ffffff",
+          }}
+        >
+          Замовлення
+        </h1>
+
         <div style={{ marginBottom: "10px" }}>
           <select
             name="product"
@@ -87,6 +99,7 @@ function PlaceOrderForm({ products, onSubmit }) {
           <button
             type="submit"
             style={{
+              fontSize: "18px",
               marginLeft: "10px",
               width: "100%",
               backgroundColor: "#007bff",

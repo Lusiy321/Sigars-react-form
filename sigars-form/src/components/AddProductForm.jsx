@@ -6,8 +6,8 @@ function AddProductForm({ onSubmit }) {
     const formData = new FormData(e.target);
     const product = {
       name: formData.get("name"),
-      quantity: formData.get("quantity"),
-      price: formData.get("price"),
+      quantity: parseInt(formData.get("quantity")),
+      price: parseInt(formData.get("price")),
     };
 
     onSubmit(product);
@@ -21,7 +21,19 @@ function AddProductForm({ onSubmit }) {
         margin: "100px auto",
       }}
     >
-      <h1>Додати товар</h1>
+      <h1
+        style={{
+          marginLeft: "10px",
+          padding: "10px",
+          paddingLeft: "40px",
+          borderRadius: "5px",
+          marginBottom: "20px",
+          backgroundColor: "#007bff",
+          color: "#ffffff",
+        }}
+      >
+        Додати товар
+      </h1>
       <div style={{ marginBottom: "10px" }}>
         <input
           type="text"
