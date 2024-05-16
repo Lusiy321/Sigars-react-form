@@ -64,6 +64,6 @@ function App() {
   );
 }
 
-const Home = () => <div>Hello</div>;
+const Home = () => <div>Server loading...</div>;
 
 export default App;
