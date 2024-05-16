@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import AddProductForm from "./components/AddProductForm";
 import PlaceOrderForm from "./components/PlaceOrderForm";
 
@@ -33,7 +33,7 @@ function App() {
   };
 
   const handlePlaceOrder = async (order) => {
-    await fetch(`https://sigars-trade-bot.onrender.com/create-order`, {
+    await fetch(`http://localhost:5000/create-order`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -64,12 +64,6 @@ function App() {
   );
 }
 
-const Home = () => (
-  <div>
-    Hello
-    <Link to="/product">Add Product</Link>
-    <Link to="/order">Place Order</Link>
-  </div>
-);
+const Home = () => <div>Hello</div>;
 
 export default App;
