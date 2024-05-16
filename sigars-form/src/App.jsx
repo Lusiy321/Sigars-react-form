@@ -33,7 +33,7 @@ function App() {
   };
 
   const handlePlaceOrder = async (order) => {
-    await fetch(`http://localhost:5000/create-order`, {
+    await fetch(`https://sigars-trade-bot.onrender.com/create-order`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
