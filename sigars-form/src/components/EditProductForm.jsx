@@ -1,29 +1,39 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 const tg = window.Telegram.WebApp;
-function PlaceOrderForm({ products, onSubmit }) {
+
+function EditProductForm({ products, onSubmit }) {
+  useEffect(() => {
+    tg.ready();
+  }, []);
+
+  const [volume, setVolume] = useState("");
+  const [price, setPrice] = useState("");
+  const [selectedProduct, setSelectedProduct] = useState(
+    products[0]?.name || ""
+  );
+
+  const handleProductChange = (e) => {
+    const selectedName = e.target.value;
+    setSelectedProduct(selectedName);
+    const product = products.find((product) => product.name === selectedName);
+    if (product) {
+      setPrice(product.price);
+      setVolume(product.quantity);
+    }
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
-    const selectedProduct = products.find(
-      (product) => product.name === formData.get("product")
-    );
-    const order = {
-      name: tg.initDataUnsafe?.user?.first_name,
-      tg_owner: tg.initDataUnsafe?.user?.id,
-      product: [
-        {
-          name: formData.get("product"),
-          volume: formData.get("quantity"),
-          price: selectedProduct ? selectedProduct.price : 0,
-        },
-      ],
+    const editProduct = {
+      name: formData.get("product"),
       quantity: formData.get("quantity"),
-      phone: formData.get("phone"),
-      adress: formData.get("adress"),
+      price: formData.get("price"),
     };
 
-    onSubmit(order);
+    onSubmit(editProduct);
+    tg.close();
   };
 
   return (
@@ -43,11 +53,13 @@ function PlaceOrderForm({ products, onSubmit }) {
             color: "#ffffff",
           }}
         >
-          Замовлення
+          Редагування
         </h1>
         <div style={{ marginBottom: "10px" }}>
           <select
             name="product"
+            value={selectedProduct}
+            onChange={handleProductChange}
             style={{
               width: "100%",
               padding: "10px",
@@ -57,49 +69,42 @@ function PlaceOrderForm({ products, onSubmit }) {
           >
             {products.map((product, index) => (
               <option key={index} value={product.name}>
-                {product.name} - {product.price} грн.
+                {product.name}
               </option>
             ))}
           </select>
         </div>
         <div style={{ marginBottom: "20px" }}>
+          <p>Кількість:</p>
           <input
             type="number"
             name="quantity"
-            placeholder="Кількість"
+            placeholder={`Кількість: ${volume}`}
+            defaultValue={volume}
             style={{
               width: "60px",
               padding: "10px",
               borderRadius: "5px",
               border: "1px solid #ccc",
             }}
-          />{" "}
+          />
+          шт.
         </div>
-        <div style={{ marginBottom: "10px" }}>
+        <div style={{ marginBottom: "20px" }}>
+          <p>Ціна:</p>
           <input
-            type="text"
-            name="phone"
-            placeholder="Ваш телефон"
+            type="number"
+            name="price"
+            placeholder={`Ціна: ${price}`}
+            defaultValue={price}
             style={{
-              width: "100%",
+              width: "60px",
               padding: "10px",
               borderRadius: "5px",
               border: "1px solid #ccc",
             }}
           />
-        </div>
-        <div style={{ marginBottom: "10px" }}>
-          <input
-            type="text"
-            name="adress"
-            placeholder="Адреса доставки"
-            style={{
-              width: "100%",
-              padding: "10px",
-              borderRadius: "5px",
-              border: "1px solid #ccc",
-            }}
-          />
+          грн.
         </div>
         <div>
           <button
@@ -116,7 +121,7 @@ function PlaceOrderForm({ products, onSubmit }) {
               cursor: "pointer",
             }}
           >
-            Замовити
+            Редагувати
           </button>
         </div>
       </form>
@@ -124,4 +129,4 @@ function PlaceOrderForm({ products, onSubmit }) {
   );
 }
 
-export default PlaceOrderForm;
+export default EditProductForm;

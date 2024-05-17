@@ -9,7 +9,6 @@ function AddProductForm({ onSubmit }) {
       quantity: parseInt(formData.get("quantity")),
       price: parseInt(formData.get("price")),
     };
-
     onSubmit(product);
   };
 
