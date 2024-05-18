@@ -1,4 +1,6 @@
 import React from "react";
+import { ToastContainer, toast, Slide } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function AddProductForm({ onSubmit }) {
   const handleSubmit = (e) => {
@@ -10,6 +12,16 @@ function AddProductForm({ onSubmit }) {
       price: parseInt(formData.get("price")),
     };
     onSubmit(product);
+    toast.success("Товар додано", {
+      position: "top-center",
+      autoClose: 2000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      transition: Slide,
+    });
   };
 
   return (
@@ -20,6 +32,7 @@ function AddProductForm({ onSubmit }) {
         margin: "100px auto",
       }}
     >
+      <ToastContainer />
       <h1
         style={{
           marginLeft: "10px",

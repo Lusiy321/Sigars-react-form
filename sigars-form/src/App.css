@@ -39,6 +39,10 @@
 }
 
 body {
-  background: #9b5252;
+  background: var(--tg-theme-bg-color);
+  color: var(--tg-theme-text-color);
+}
+
+h2 {
   color: var(--tg-theme-text-color);
 }

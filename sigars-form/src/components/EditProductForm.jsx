@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-
+import { ToastContainer, toast, Slide } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 const tg = window.Telegram.WebApp;
 
 function EditProductForm({ products, onSubmit }) {
@@ -33,7 +34,16 @@ function EditProductForm({ products, onSubmit }) {
     };
 
     onSubmit(editProduct);
-    tg.close();
+    toast.success("Товар оновлено", {
+      position: "top-center",
+      autoClose: 2000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      transition: Slide,
+    });
   };
 
   return (
@@ -42,6 +52,7 @@ function EditProductForm({ products, onSubmit }) {
         onSubmit={handleSubmit}
         style={{ width: "300px", margin: "100px auto" }}
       >
+        <ToastContainer />
         <h1
           style={{
             marginLeft: "10px",
@@ -75,7 +86,7 @@ function EditProductForm({ products, onSubmit }) {
           </select>
         </div>
         <div style={{ marginBottom: "20px" }}>
-          <p>Кількість:</p>
+          <h2>Кількість:</h2>
           <input
             type="number"
             name="quantity"
@@ -91,7 +102,7 @@ function EditProductForm({ products, onSubmit }) {
           шт.
         </div>
         <div style={{ marginBottom: "20px" }}>
-          <p>Ціна:</p>
+          <h2>Ціна:</h2>
           <input
             type="number"
             name="price"

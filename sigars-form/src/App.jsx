@@ -46,14 +46,14 @@ function App() {
   };
 
   const handleEditProduct = async (order) => {
-    await fetch(`https://sigars-trade-bot.onrender.com/create-product`, {
+    await fetch(`https://sigars-trade-bot.onrender.com/edit-product`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(order),
     });
-    return tg.close();
+    return;
   };
 
   return (
