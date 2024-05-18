@@ -1,7 +1,7 @@
 import React from "react";
 import { ToastContainer, toast, Slide } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
+import "../App.css";
 function AddProductForm({ onSubmit }) {
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -33,29 +33,17 @@ function AddProductForm({ onSubmit }) {
       }}
     >
       <ToastContainer />
-      <h1
-        style={{
-          marginLeft: "10px",
-          padding: "10px",
-          paddingLeft: "40px",
-          borderRadius: "5px",
-          marginBottom: "20px",
-          backgroundColor: "#007bff",
-          color: "#ffffff",
-        }}
-      >
-        Додати товар
-      </h1>
+      <h1>Додати товар</h1>
       <div style={{ marginBottom: "10px" }}>
         <input
           type="text"
           name="name"
           placeholder="Назва"
           style={{
-            width: "100%",
+            width: "278px",
             padding: "10px",
             borderRadius: "5px",
-            border: "1px solid #ccc",
+            border: "1px solid var(--tg-theme-hint-color)",
           }}
         />
       </div>
@@ -65,10 +53,10 @@ function AddProductForm({ onSubmit }) {
           name="quantity"
           placeholder="Кількість"
           style={{
-            width: "100%",
+            width: "278px",
             padding: "10px",
             borderRadius: "5px",
-            border: "1px solid #ccc",
+            border: "1px solid var(--tg-theme-hint-color)",
           }}
         />
       </div>
@@ -78,10 +66,10 @@ function AddProductForm({ onSubmit }) {
           name="price"
           placeholder="Ціна"
           style={{
-            width: "100%",
+            width: "278px",
             padding: "10px",
             borderRadius: "5px",
-            border: "1px solid #ccc",
+            border: "1px solid var(--tg-theme-hint-color)",
           }}
         />
       </div>
@@ -95,9 +83,10 @@ function AddProductForm({ onSubmit }) {
         <button
           type="submit"
           style={{
-            width: "200px",
-            backgroundColor: "#007bff",
-            color: "white",
+            fontSize: "18px",
+            width: "100%",
+            backgroundColor: "var(--tg-theme-button-color)",
+            color: "var(--tg-theme-button-text-color)",
             border: "none",
             padding: "10px",
             borderRadius: "5px",

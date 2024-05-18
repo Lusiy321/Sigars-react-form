@@ -1,6 +1,7 @@
 import React from "react";
 import { ToastContainer, toast, Slide } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import "../App.css";
 const tg = window.Telegram.WebApp;
 function PlaceOrderForm({ products, onSubmit }) {
   const handleSubmit = (e) => {
@@ -43,19 +44,7 @@ function PlaceOrderForm({ products, onSubmit }) {
         style={{ width: "300px", margin: "100px auto" }}
       >
         <ToastContainer />
-        <h1
-          style={{
-            marginLeft: "10px",
-            padding: "10px",
-            paddingLeft: "40px",
-            borderRadius: "5px",
-            marginBottom: "20px",
-            backgroundColor: "#007bff",
-            color: "#ffffff",
-          }}
-        >
-          Замовлення
-        </h1>
+        <h1>Замовлення</h1>
         <div style={{ marginBottom: "10px" }}>
           <select
             name="product"
@@ -63,7 +52,7 @@ function PlaceOrderForm({ products, onSubmit }) {
               width: "100%",
               padding: "10px",
               borderRadius: "5px",
-              border: "1px solid #ccc",
+              border: "1px solid var(--tg-theme-hint-color)",
             }}
           >
             {products.map((product, index) => (
@@ -73,16 +62,16 @@ function PlaceOrderForm({ products, onSubmit }) {
             ))}
           </select>
         </div>
-        <div style={{ marginBottom: "20px" }}>
+        <div style={{ marginBottom: "10px" }}>
           <input
             type="number"
             name="quantity"
             placeholder="Кількість"
             style={{
-              width: "60px",
+              width: "100px",
               padding: "10px",
               borderRadius: "5px",
-              border: "1px solid #ccc",
+              border: "1px solid var(--tg-theme-hint-color)",
             }}
           />{" "}
         </div>
@@ -92,10 +81,10 @@ function PlaceOrderForm({ products, onSubmit }) {
             name="phone"
             placeholder="Ваш телефон"
             style={{
-              width: "100%",
+              width: "278px",
               padding: "10px",
               borderRadius: "5px",
-              border: "1px solid #ccc",
+              border: "1px solid var(--tg-theme-hint-color)",
             }}
           />
         </div>
@@ -105,10 +94,10 @@ function PlaceOrderForm({ products, onSubmit }) {
             name="adress"
             placeholder="Адреса доставки"
             style={{
-              width: "100%",
+              width: "278px",
               padding: "10px",
               borderRadius: "5px",
-              border: "1px solid #ccc",
+              border: "1px solid var(--tg-theme-hint-color)",
             }}
           />
         </div>
@@ -117,10 +106,9 @@ function PlaceOrderForm({ products, onSubmit }) {
             type="submit"
             style={{
               fontSize: "18px",
-              marginLeft: "10px",
               width: "100%",
-              backgroundColor: "#007bff",
-              color: "white",
+              backgroundColor: "var(--tg-theme-button-color)",
+              color: "var(--tg-theme-button-text-color)",
               border: "none",
               padding: "10px",
               borderRadius: "5px",
