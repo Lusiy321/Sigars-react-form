@@ -49,7 +49,7 @@ function EditProductForm({ products, onSubmit }) {
 
     setTimeout(() => {
       tg.close();
-    }, 3000); // Задержка 3 секунды перед закрытием
+    }, 3000);
   };
 
   return (
@@ -61,7 +61,7 @@ function EditProductForm({ products, onSubmit }) {
     >
       <form
         onSubmit={handleSubmit}
-        style={{ width: "300px", margin: "0 auto" }}
+        style={{ width: "300px", margin: "80px auto" }}
       >
         <ToastContainer
           position="top-center"
@@ -73,17 +73,7 @@ function EditProductForm({ products, onSubmit }) {
           transition={Slide}
           style={{ width: "400px" }}
         />
-        <h1
-          style={{
-            padding: "10px",
-            borderRadius: "5px",
-            marginBottom: "20px",
-            backgroundColor: "var(--tg-theme-button-color)",
-            color: "var(--tg-theme-button-text-color)",
-          }}
-        >
-          Редагування
-        </h1>
+        <h1>Редагування</h1>
         <div style={{ marginBottom: "10px" }}>
           <select
             name="product"
@@ -103,15 +93,16 @@ function EditProductForm({ products, onSubmit }) {
             ))}
           </select>
         </div>
+
         <div style={{ marginBottom: "20px" }}>
-          <p>Кількість:</p>
+          <h3>Кількість:</h3>
           <input
             type="number"
             name="quantity"
             placeholder={`Кількість: ${volume}`}
             defaultValue={volume}
             style={{
-              width: "60px",
+              width: "100px",
               padding: "10px",
               borderRadius: "5px",
               border: "1px solid var(--tg-theme-hint-color)",
@@ -119,14 +110,14 @@ function EditProductForm({ products, onSubmit }) {
           />
         </div>
         <div style={{ marginBottom: "20px" }}>
-          <p>Ціна:</p>
+          <h3>Ціна:</h3>
           <input
             type="number"
             name="price"
             placeholder={`Ціна: ${price}`}
             defaultValue={price}
             style={{
-              width: "60px",
+              width: "100px",
               padding: "10px",
               borderRadius: "5px",
               border: "1px solid var(--tg-theme-hint-color)",
