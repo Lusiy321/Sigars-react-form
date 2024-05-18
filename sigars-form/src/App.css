@@ -1,3 +1,19 @@
+:root {
+  --tg-theme-bg-color: #ffffff;
+  --tg-theme-text-color: #000000;
+  --tg-theme-hint-color: #6c757d;
+  --tg-theme-link-color: #007bff;
+  --tg-theme-button-color: #007bff;
+  --tg-theme-button-text-color: #ffffff;
+  --tg-theme-secondary-bg-color: #f8f9fa;
+  --tg-theme-header-bg-color: #007bff;
+  --tg-theme-accent-text-color: #007bff;
+  --tg-theme-section-bg-color: #f1f1f1;
+  --tg-theme-section-header-text-color: #495057;
+  --tg-theme-subtitle-text-color: #6c757d;
+  --tg-theme-destructive-text-color: #dc3545;
+}
+
 .App {
   text-align: center;
 }

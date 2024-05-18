@@ -13,7 +13,6 @@ function App() {
   }, []);
   async function response() {
     try {
-      await new Promise((resolve) => setTimeout(resolve, 3000));
       const res = await fetch("https://sigars-trade-bot.onrender.com/product");
       const data = await res.json();
 
@@ -42,7 +41,10 @@ function App() {
       },
       body: JSON.stringify(order),
     });
-    return tg.close();
+    setTimeout(() => {
+      tg.close();
+    }, 3000);
+    return;
   };
 
   const handleEditProduct = async (order) => {

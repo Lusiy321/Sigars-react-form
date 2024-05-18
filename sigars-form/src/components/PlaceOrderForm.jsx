@@ -1,5 +1,6 @@
 import React from "react";
-
+import { ToastContainer, toast, Slide } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 const tg = window.Telegram.WebApp;
 function PlaceOrderForm({ products, onSubmit }) {
   const handleSubmit = (e) => {
@@ -22,8 +23,17 @@ function PlaceOrderForm({ products, onSubmit }) {
       phone: formData.get("phone"),
       adress: formData.get("adress"),
     };
-
     onSubmit(order);
+    toast.success("Замовлення виконано", {
+      position: "top-center",
+      autoClose: 2000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      transition: Slide,
+    });
   };
 
   return (
@@ -32,6 +42,7 @@ function PlaceOrderForm({ products, onSubmit }) {
         onSubmit={handleSubmit}
         style={{ width: "300px", margin: "100px auto" }}
       >
+        <ToastContainer />
         <h1
           style={{
             marginLeft: "10px",

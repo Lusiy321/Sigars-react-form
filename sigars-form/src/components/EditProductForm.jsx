@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { ToastContainer, toast, Slide } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import "../App.css";
+
 const tg = window.Telegram.WebApp;
 
 function EditProductForm({ products, onSubmit }) {
@@ -36,7 +38,7 @@ function EditProductForm({ products, onSubmit }) {
     onSubmit(editProduct);
     toast.success("Товар оновлено", {
       position: "top-center",
-      autoClose: 2000,
+      autoClose: 3000,
       hideProgressBar: true,
       closeOnClick: true,
       pauseOnHover: true,
@@ -44,24 +46,40 @@ function EditProductForm({ products, onSubmit }) {
       progress: undefined,
       transition: Slide,
     });
+
+    setTimeout(() => {
+      tg.close();
+    }, 3000); // Задержка 3 секунды перед закрытием
   };
 
   return (
-    <div>
+    <div
+      style={{
+        backgroundColor: "var(--tg-theme-bg-color)",
+        color: "var(--tg-theme-text-color)",
+      }}
+    >
       <form
         onSubmit={handleSubmit}
-        style={{ width: "300px", margin: "100px auto" }}
+        style={{ width: "300px", margin: "0 auto" }}
       >
-        <ToastContainer />
+        <ToastContainer
+          position="top-center"
+          autoClose={3000}
+          hideProgressBar
+          closeOnClick
+          pauseOnHover
+          draggable
+          transition={Slide}
+          style={{ width: "400px" }}
+        />
         <h1
           style={{
-            marginLeft: "10px",
             padding: "10px",
-            paddingLeft: "40px",
             borderRadius: "5px",
             marginBottom: "20px",
-            backgroundColor: "#007bff",
-            color: "#ffffff",
+            backgroundColor: "var(--tg-theme-header-bg-color)",
+            color: "var(--tg-theme-button-text-color)",
           }}
         >
           Редагування
@@ -75,7 +93,7 @@ function EditProductForm({ products, onSubmit }) {
               width: "100%",
               padding: "10px",
               borderRadius: "5px",
-              border: "1px solid #ccc",
+              border: "1px solid var(--tg-theme-hint-color)",
             }}
           >
             {products.map((product, index) => (
@@ -86,7 +104,7 @@ function EditProductForm({ products, onSubmit }) {
           </select>
         </div>
         <div style={{ marginBottom: "20px" }}>
-          <h2>Кількість:</h2>
+          <p>Кількість:</p>
           <input
             type="number"
             name="quantity"
@@ -96,13 +114,13 @@ function EditProductForm({ products, onSubmit }) {
               width: "60px",
               padding: "10px",
               borderRadius: "5px",
-              border: "1px solid #ccc",
+              border: "1px solid var(--tg-theme-hint-color)",
             }}
           />
           шт.
         </div>
         <div style={{ marginBottom: "20px" }}>
-          <h2>Ціна:</h2>
+          <p>Ціна:</p>
           <input
             type="number"
             name="price"
@@ -112,7 +130,7 @@ function EditProductForm({ products, onSubmit }) {
               width: "60px",
               padding: "10px",
               borderRadius: "5px",
-              border: "1px solid #ccc",
+              border: "1px solid var(--tg-theme-hint-color)",
             }}
           />
           грн.
@@ -122,10 +140,9 @@ function EditProductForm({ products, onSubmit }) {
             type="submit"
             style={{
               fontSize: "18px",
-              marginLeft: "10px",
               width: "100%",
-              backgroundColor: "#007bff",
-              color: "white",
+              backgroundColor: "var(--tg-theme-button-color)",
+              color: "var(--tg-theme-button-text-color)",
               border: "none",
               padding: "10px",
               borderRadius: "5px",
