@@ -78,7 +78,7 @@ function EditProductForm({ products, onSubmit }) {
             padding: "10px",
             borderRadius: "5px",
             marginBottom: "20px",
-            backgroundColor: "var(--tg-theme-header-bg-color)",
+            backgroundColor: "var(--tg-theme-button-color)",
             color: "var(--tg-theme-button-text-color)",
           }}
         >
@@ -117,7 +117,6 @@ function EditProductForm({ products, onSubmit }) {
               border: "1px solid var(--tg-theme-hint-color)",
             }}
           />
-          шт.
         </div>
         <div style={{ marginBottom: "20px" }}>
           <p>Ціна:</p>
@@ -133,7 +132,6 @@ function EditProductForm({ products, onSubmit }) {
               border: "1px solid var(--tg-theme-hint-color)",
             }}
           />
-          грн.
         </div>
         <div>
           <button
