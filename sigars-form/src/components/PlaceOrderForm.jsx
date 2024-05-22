@@ -1,28 +1,34 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { ToastContainer, toast, Slide } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "../App.css";
+
 const tg = window.Telegram.WebApp;
+
 function PlaceOrderForm({ products, onSubmit }) {
+  const [selectedProduct, setSelectedProduct] = useState(
+    products[0]?.name || ""
+  );
+  const [quantity, setQuantity] = useState(1);
+  const [orderItems, setOrderItems] = useState([]);
+  const [totalPrice, setTotalPrice] = useState(0);
+
+  useEffect(() => {
+    const newTotal = orderItems.reduce(
+      (acc, item) => acc + item.price * item.quantity,
+      0
+    );
+    setTotalPrice(newTotal);
+  }, [orderItems]);
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    const formData = new FormData(e.target);
-    const selectedProduct = products.find(
-      (product) => product.name === formData.get("product")
-    );
     const order = {
       name: tg.initDataUnsafe?.user?.first_name,
       tg_owner: tg.initDataUnsafe?.user?.id,
-      product: [
-        {
-          name: formData.get("product"),
-          volume: formData.get("quantity"),
-          price: selectedProduct ? selectedProduct.price : 0,
-        },
-      ],
-      quantity: formData.get("quantity"),
-      phone: formData.get("phone"),
-      adress: formData.get("adress"),
+      products: orderItems,
+      phone: e.target.phone.value,
+      adress: e.target.adress.value,
     };
     onSubmit(order);
     toast.success("Замовлення виконано", {
@@ -35,6 +41,29 @@ function PlaceOrderForm({ products, onSubmit }) {
       progress: undefined,
       transition: Slide,
     });
+    setTimeout(() => {
+      tg.close();
+    }, 3000);
+  };
+
+  const handleAddProduct = () => {
+    const product = products.find(
+      (product) => product.name === selectedProduct
+    );
+    if (product) {
+      setOrderItems([
+        ...orderItems,
+        { name: selectedProduct, quantity, price: product.price },
+      ]);
+    }
+  };
+
+  const handleProductChange = (e) => {
+    setSelectedProduct(e.target.value);
+  };
+
+  const handleQuantityChange = (e) => {
+    setQuantity(Number(e.target.value));
   };
 
   return (
@@ -48,6 +77,8 @@ function PlaceOrderForm({ products, onSubmit }) {
         <div style={{ marginBottom: "10px" }}>
           <select
             name="product"
+            value={selectedProduct}
+            onChange={handleProductChange}
             style={{
               width: "100%",
               padding: "10px",
@@ -67,6 +98,8 @@ function PlaceOrderForm({ products, onSubmit }) {
             type="number"
             name="quantity"
             placeholder="Кількість"
+            value={quantity}
+            onChange={handleQuantityChange}
             style={{
               width: "100px",
               padding: "10px",
@@ -74,6 +107,25 @@ function PlaceOrderForm({ products, onSubmit }) {
               border: "1px solid var(--tg-theme-hint-color)",
             }}
           />{" "}
+        </div>
+        <div>
+          <button
+            type="button"
+            onClick={handleAddProduct}
+            style={{
+              fontSize: "18px",
+              width: "100%",
+              backgroundColor: "var(--tg-theme-button-color)",
+              color: "var(--tg-theme-button-text-color)",
+              border: "none",
+              padding: "10px",
+              borderRadius: "5px",
+              cursor: "pointer",
+              marginBottom: "20px",
+            }}
+          >
+            Додати товар
+          </button>
         </div>
         <div style={{ marginBottom: "10px" }}>
           <input
@@ -100,6 +152,18 @@ function PlaceOrderForm({ products, onSubmit }) {
               border: "1px solid var(--tg-theme-hint-color)",
             }}
           />
+        </div>
+        <div style={{ marginBottom: "20px" }}>
+          <h2>Ваше замовлення:</h2>
+          <ul>
+            {orderItems.map((item, index) => (
+              <li key={index}>
+                {item.name} - {item.quantity} шт. - {item.price * item.quantity}{" "}
+                грн.
+              </li>
+            ))}
+          </ul>
+          <p>Загальна сума: {totalPrice} грн.</p>
         </div>
         <div>
           <button
