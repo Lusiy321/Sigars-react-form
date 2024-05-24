@@ -9,13 +9,13 @@ function PlaceOrderForm({ products, onSubmit }) {
   const [selectedProduct, setSelectedProduct] = useState(
     products[0]?.name || ""
   );
-  const [quantity, setQuantity] = useState(1);
+  const [volume, setVolume] = useState(1);
   const [orderItems, setOrderItems] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
 
   useEffect(() => {
     const newTotal = orderItems.reduce(
-      (acc, item) => acc + item.price * item.quantity,
+      (acc, item) => acc + item.price * item.volume,
       0
     );
     setTotalPrice(newTotal);
@@ -53,7 +53,7 @@ function PlaceOrderForm({ products, onSubmit }) {
     if (product) {
       setOrderItems([
         ...orderItems,
-        { name: selectedProduct, quantity, price: product.price },
+        { name: selectedProduct, volume, price: product.price },
       ]);
     }
   };
@@ -63,7 +63,7 @@ function PlaceOrderForm({ products, onSubmit }) {
   };
 
   const handleQuantityChange = (e) => {
-    setQuantity(Number(e.target.value));
+    setVolume(Number(e.target.value));
   };
 
   const handleRemoveProduct = (index) => {
@@ -103,7 +103,7 @@ function PlaceOrderForm({ products, onSubmit }) {
             type="number"
             name="quantity"
             placeholder="Кількість"
-            value={quantity}
+            value={volume}
             onChange={handleQuantityChange}
             style={{
               width: "100px",
