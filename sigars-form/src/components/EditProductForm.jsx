@@ -15,6 +15,7 @@ function EditProductForm({ products, onSubmit }) {
   const [selectedProduct, setSelectedProduct] = useState(
     products[0]?.name || ""
   );
+  const [errors, setErrors] = useState({});
 
   const handleProductChange = (e) => {
     const selectedName = e.target.value;
@@ -26,30 +27,54 @@ function EditProductForm({ products, onSubmit }) {
     }
   };
 
+  const validateForm = () => {
+    const errors = {};
+    const quantity = parseFloat(
+      document.querySelector('input[name="quantity"]').value
+    );
+    const price = parseFloat(
+      document.querySelector('input[name="price"]').value
+    );
+
+    if (isNaN(quantity) || quantity <= 0) {
+      errors.quantity = "Кількість має бути позитивним числом";
+    }
+    if (isNaN(price) || price <= 0) {
+      errors.price = "Ціна має бути позитивним числом";
+    }
+
+    return errors;
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    const formData = new FormData(e.target);
-    const editProduct = {
-      name: formData.get("product"),
-      quantity: formData.get("quantity"),
-      price: formData.get("price"),
-    };
+    const validationErrors = validateForm();
+    if (Object.keys(validationErrors).length === 0) {
+      const formData = new FormData(e.target);
+      const editProduct = {
+        name: formData.get("product"),
+        quantity: formData.get("quantity"),
+        price: formData.get("price"),
+      };
 
-    onSubmit(editProduct);
-    toast.success("Товар оновлено", {
-      position: "top-center",
-      autoClose: 3000,
-      hideProgressBar: true,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      transition: Slide,
-    });
+      onSubmit(editProduct);
+      toast.success("Товар оновлено", {
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        transition: Slide,
+      });
 
-    setTimeout(() => {
-      tg.close();
-    }, 3000);
+      setTimeout(() => {
+        tg.close();
+      }, 3000);
+    } else {
+      setErrors(validationErrors);
+    }
   };
 
   return (
@@ -108,6 +133,11 @@ function EditProductForm({ products, onSubmit }) {
               border: "1px solid var(--tg-theme-hint-color)",
             }}
           />
+          {errors.quantity && (
+            <span style={{ color: "red", fontSize: "12px" }}>
+              {errors.quantity}
+            </span>
+          )}
         </div>
         <div style={{ marginBottom: "20px" }}>
           <h3>Ціна:</h3>
@@ -123,6 +153,11 @@ function EditProductForm({ products, onSubmit }) {
               border: "1px solid var(--tg-theme-hint-color)",
             }}
           />
+          {errors.price && (
+            <span style={{ color: "red", fontSize: "12px" }}>
+              {errors.price}
+            </span>
+          )}
         </div>
         <div>
           <button
