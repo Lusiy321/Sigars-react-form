@@ -12,6 +12,9 @@ function PlaceOrderForm({ products, onSubmit }) {
   const [volume, setVolume] = useState(1);
   const [orderItems, setOrderItems] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
+  const [phone, setPhone] = useState("");
+  const [address, setAddress] = useState("");
+  const [errors, setErrors] = useState({});
 
   useEffect(() => {
     const newTotal = orderItems.reduce(
@@ -23,27 +26,32 @@ function PlaceOrderForm({ products, onSubmit }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const order = {
-      name: tg.initDataUnsafe?.user?.first_name,
-      tg_owner: tg.initDataUnsafe?.user?.id,
-      product: orderItems,
-      phone: e.target.phone.value,
-      adress: e.target.adress.value,
-    };
-    onSubmit(order);
-    toast.success("Замовлення відправлено", {
-      position: "top-center",
-      autoClose: 2000,
-      hideProgressBar: true,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      transition: Slide,
-    });
-    setTimeout(() => {
-      tg.close();
-    }, 3000);
+    const validationErrors = validateForm();
+    if (Object.keys(validationErrors).length === 0) {
+      const order = {
+        name: tg.initDataUnsafe?.user?.first_name,
+        tg_owner: tg.initDataUnsafe?.user?.id,
+        products: orderItems,
+        phone: phone,
+        adress: address,
+      };
+      onSubmit(order);
+      toast.success("Замовлення відправлено", {
+        position: "top-center",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        transition: Slide,
+      });
+      setTimeout(() => {
+        tg.close();
+      }, 3000);
+    } else {
+      setErrors(validationErrors);
+    }
   };
 
   const handleAddProduct = () => {
@@ -56,6 +64,16 @@ function PlaceOrderForm({ products, onSubmit }) {
         { name: selectedProduct, volume, price: product.price },
       ]);
     }
+  };
+  const validateForm = () => {
+    const errors = {};
+    if (!phone) {
+      errors.phone = "Телефон обов'язковий";
+    }
+    if (!address) {
+      errors.address = "Адреса обов'язкова";
+    }
+    return errors;
   };
 
   const handleProductChange = (e) => {
@@ -137,6 +155,8 @@ function PlaceOrderForm({ products, onSubmit }) {
             type="text"
             name="phone"
             placeholder="Ваш телефон"
+            value={phone}
+            onChange={(e) => setPhone(e.target.value)}
             style={{
               width: "278px",
               padding: "10px",
@@ -144,12 +164,19 @@ function PlaceOrderForm({ products, onSubmit }) {
               border: "1px solid var(--tg-theme-hint-color)",
             }}
           />
+          {errors.phone && (
+            <span style={{ color: "red", fontSize: "12px" }}>
+              {errors.phone}
+            </span>
+          )}
         </div>
         <div style={{ marginBottom: "10px" }}>
           <input
             type="text"
             name="adress"
             placeholder="Адреса доставки"
+            value={address}
+            onChange={(e) => setAddress(e.target.value)}
             style={{
               width: "278px",
               padding: "10px",
@@ -157,6 +184,11 @@ function PlaceOrderForm({ products, onSubmit }) {
               border: "1px solid var(--tg-theme-hint-color)",
             }}
           />
+          {errors.address && (
+            <span style={{ color: "red", fontSize: "12px" }}>
+              {errors.address}
+            </span>
+          )}
         </div>
         <div style={{ marginBottom: "20px" }}>
           <h2>Ваше замовлення:</h2>
