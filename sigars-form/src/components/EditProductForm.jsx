@@ -133,11 +133,13 @@ function EditProductForm({ products, onSubmit }) {
               border: "1px solid var(--tg-theme-hint-color)",
             }}
           />
-          {errors.quantity && (
-            <span style={{ color: "red", fontSize: "12px" }}>
-              {errors.quantity}
-            </span>
-          )}
+          <div>
+            {errors.quantity && (
+              <span style={{ color: "red", fontSize: "12px" }}>
+                {errors.quantity}
+              </span>
+            )}
+          </div>
         </div>
         <div style={{ marginBottom: "20px" }}>
           <h3>Ціна:</h3>
@@ -153,11 +155,13 @@ function EditProductForm({ products, onSubmit }) {
               border: "1px solid var(--tg-theme-hint-color)",
             }}
           />
-          {errors.price && (
-            <span style={{ color: "red", fontSize: "12px" }}>
-              {errors.price}
-            </span>
-          )}
+          <div>
+            {errors.price && (
+              <span style={{ color: "red", fontSize: "12px" }}>
+                {errors.price}
+              </span>
+            )}
+          </div>
         </div>
         <div>
           <button
