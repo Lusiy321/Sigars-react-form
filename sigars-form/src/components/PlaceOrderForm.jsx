@@ -31,7 +31,7 @@ function PlaceOrderForm({ products, onSubmit }) {
       const order = {
         name: tg.initDataUnsafe?.user?.first_name,
         tg_owner: tg.initDataUnsafe?.user?.id,
-        products: orderItems,
+        product: orderItems,
         phone: phone,
         adress: address,
       };
