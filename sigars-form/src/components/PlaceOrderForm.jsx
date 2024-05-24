@@ -31,7 +31,7 @@ function PlaceOrderForm({ products, onSubmit }) {
       adress: e.target.adress.value,
     };
     onSubmit(order);
-    toast.success("Замовлення виконано", {
+    toast.success("Замовлення відправлено", {
       position: "top-center",
       autoClose: 2000,
       hideProgressBar: true,
@@ -64,6 +64,11 @@ function PlaceOrderForm({ products, onSubmit }) {
 
   const handleQuantityChange = (e) => {
     setQuantity(Number(e.target.value));
+  };
+
+  const handleRemoveProduct = (index) => {
+    const newOrderItems = orderItems.filter((_, i) => i !== index);
+    setOrderItems(newOrderItems);
   };
 
   return (
@@ -155,15 +160,51 @@ function PlaceOrderForm({ products, onSubmit }) {
         </div>
         <div style={{ marginBottom: "20px" }}>
           <h2>Ваше замовлення:</h2>
-          <ul>
+          <ul style={{ listStyleType: "none", padding: 0 }}>
             {orderItems.map((item, index) => (
-              <li key={index}>
-                {item.name} - {item.quantity} шт. - {item.price * item.quantity}{" "}
-                грн.
+              <li
+                key={index}
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  padding: "10px",
+                  borderBottom: "1px solid var(--tg-theme-hint-color)",
+                }}
+              >
+                <span
+                  style={{
+                    fontSize: "14px",
+                    fontWeight: "bold",
+                  }}
+                >
+                  {item.name} - {item.quantity} шт. -{" "}
+                  {item.price * item.quantity} грн.
+                </span>
+                <button
+                  type="button"
+                  onClick={() => handleRemoveProduct(index)}
+                  style={{
+                    background: "none",
+                    border: "none",
+                    color: "red",
+                    cursor: "pointer",
+                    fontSize: "16px",
+                  }}
+                >
+                  &#x2715;
+                </button>
               </li>
             ))}
           </ul>
-          <p>Загальна сума: {totalPrice} грн.</p>
+          <p
+            style={{
+              fontSize: "16px",
+              fontWeight: "bold",
+            }}
+          >
+            Загальна сума: {totalPrice} грн.
+          </p>
         </div>
         <div>
           <button
