@@ -178,8 +178,8 @@ function PlaceOrderForm({ products, onSubmit }) {
                     fontWeight: "bold",
                   }}
                 >
-                  {item.name} - {item.quantity} шт. -{" "}
-                  {item.price * item.quantity} грн.
+                  {item.name} - {item.volume} шт. - {item.price * item.volume}{" "}
+                  грн.
                 </span>
                 <button
                   type="button"
