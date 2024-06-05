@@ -129,6 +129,7 @@ function EditProductForm({ products, onSubmit }) {
                 ...base,
                 display: "flex",
                 alignItems: "center",
+                color: "color: var(--tg-theme-text-color);",
               }),
               singleValue: (base) => ({
                 ...base,
