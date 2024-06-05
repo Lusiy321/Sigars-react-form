@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import Select from "react-select";
 import { ToastContainer, toast, Slide } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "../App.css";
@@ -65,6 +66,7 @@ function PlaceOrderForm({ products, onSubmit }) {
       ]);
     }
   };
+
   const validateForm = () => {
     const errors = {};
     if (!phone) {
@@ -76,8 +78,8 @@ function PlaceOrderForm({ products, onSubmit }) {
     return errors;
   };
 
-  const handleProductChange = (e) => {
-    setSelectedProduct(e.target.value);
+  const handleProductChange = (selectedOption) => {
+    setSelectedProduct(selectedOption.value);
   };
 
   const handleQuantityChange = (e) => {
@@ -89,6 +91,20 @@ function PlaceOrderForm({ products, onSubmit }) {
     setOrderItems(newOrderItems);
   };
 
+  const productOptions = products.map((product) => ({
+    value: product.name,
+    label: (
+      <div style={{ display: "flex", alignItems: "center" }}>
+        <img
+          src={product.url}
+          alt={product.name}
+          style={{ width: "50px", marginRight: "10px" }}
+        />
+        {product.name} - {product.price} грн.
+      </div>
+    ),
+  }));
+
   return (
     <div>
       <form
@@ -98,23 +114,32 @@ function PlaceOrderForm({ products, onSubmit }) {
         <ToastContainer />
         <h1>Замовлення</h1>
         <div style={{ marginBottom: "10px" }}>
-          <select
+          <Select
             name="product"
-            value={selectedProduct}
+            value={productOptions.find(
+              (option) => option.value === selectedProduct
+            )}
             onChange={handleProductChange}
-            style={{
-              width: "100%",
-              padding: "10px",
-              borderRadius: "5px",
-              border: "1px solid var(--tg-theme-hint-color)",
+            options={productOptions}
+            styles={{
+              control: (base) => ({
+                ...base,
+                padding: "10px",
+                borderRadius: "5px",
+                border: "1px solid var(--tg-theme-hint-color)",
+              }),
+              option: (base) => ({
+                ...base,
+                display: "flex",
+                alignItems: "center",
+              }),
+              singleValue: (base) => ({
+                ...base,
+                display: "flex",
+                alignItems: "center",
+              }),
             }}
-          >
-            {products.map((product, index) => (
-              <option key={index} value={product.name}>
-                {product.name} - {product.price} грн.
-              </option>
-            ))}
-          </select>
+          />
         </div>
         <div style={{ marginBottom: "10px" }}>
           <input
