@@ -116,6 +116,7 @@ function PlaceOrderForm({ products, onSubmit }) {
         <div style={{ marginBottom: "10px" }}>
           <Select
             name="product"
+            placeholder="Оберіть товар"
             value={productOptions.find(
               (option) => option.value === selectedProduct
             )}

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import Select from "react-select";
 import { ToastContainer, toast, Slide } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "../App.css";
@@ -17,8 +18,8 @@ function EditProductForm({ products, onSubmit }) {
   );
   const [errors, setErrors] = useState({});
 
-  const handleProductChange = (e) => {
-    const selectedName = e.target.value;
+  const handleProductChange = (selectedOption) => {
+    const selectedName = selectedOption.value;
     setSelectedProduct(selectedName);
     const product = products.find((product) => product.name === selectedName);
     if (product) {
@@ -29,17 +30,13 @@ function EditProductForm({ products, onSubmit }) {
 
   const validateForm = () => {
     const errors = {};
-    const quantity = parseFloat(
-      document.querySelector('input[name="quantity"]').value
-    );
-    const price = parseFloat(
-      document.querySelector('input[name="price"]').value
-    );
+    const quantity = parseFloat(volume);
+    const priceValue = parseFloat(price);
 
     if (isNaN(quantity) || quantity <= 0) {
       errors.quantity = "Кількість має бути позитивним числом";
     }
-    if (isNaN(price) || price <= 0) {
+    if (isNaN(priceValue) || priceValue <= 0) {
       errors.price = "Ціна має бути позитивним числом";
     }
 
@@ -50,11 +47,10 @@ function EditProductForm({ products, onSubmit }) {
     e.preventDefault();
     const validationErrors = validateForm();
     if (Object.keys(validationErrors).length === 0) {
-      const formData = new FormData(e.target);
       const editProduct = {
-        name: formData.get("product"),
-        quantity: formData.get("quantity"),
-        price: formData.get("price"),
+        name: selectedProduct,
+        quantity: volume,
+        price: price,
       };
 
       onSubmit(editProduct);
@@ -76,6 +72,20 @@ function EditProductForm({ products, onSubmit }) {
       setErrors(validationErrors);
     }
   };
+
+  const productOptions = products.map((product) => ({
+    value: product.name,
+    label: (
+      <div style={{ display: "flex", alignItems: "center" }}>
+        <img
+          src={product.url}
+          alt={product.name}
+          style={{ width: "50px", marginRight: "10px" }}
+        />
+        {product.name}
+      </div>
+    ),
+  }));
 
   return (
     <div
@@ -100,23 +110,33 @@ function EditProductForm({ products, onSubmit }) {
         />
         <h1>Редагування</h1>
         <div style={{ marginBottom: "10px" }}>
-          <select
+          <Select
             name="product"
-            value={selectedProduct}
+            placeholder="Оберіть товар"
+            value={productOptions.find(
+              (option) => option.value === selectedProduct
+            )}
             onChange={handleProductChange}
-            style={{
-              width: "100%",
-              padding: "10px",
-              borderRadius: "5px",
-              border: "1px solid var(--tg-theme-hint-color)",
+            options={productOptions}
+            styles={{
+              control: (base) => ({
+                ...base,
+                padding: "10px",
+                borderRadius: "5px",
+                border: "1px solid var(--tg-theme-hint-color)",
+              }),
+              option: (base) => ({
+                ...base,
+                display: "flex",
+                alignItems: "center",
+              }),
+              singleValue: (base) => ({
+                ...base,
+                display: "flex",
+                alignItems: "center",
+              }),
             }}
-          >
-            {products.map((product, index) => (
-              <option key={index} value={product.name}>
-                {product.name}
-              </option>
-            ))}
-          </select>
+          />
         </div>
 
         <div style={{ marginBottom: "20px" }}>
@@ -125,7 +145,8 @@ function EditProductForm({ products, onSubmit }) {
             type="number"
             name="quantity"
             placeholder={`Кількість: ${volume}`}
-            defaultValue={volume}
+            value={volume}
+            onChange={(e) => setVolume(e.target.value)}
             style={{
               width: "100px",
               padding: "10px",
@@ -147,7 +168,8 @@ function EditProductForm({ products, onSubmit }) {
             type="number"
             name="price"
             placeholder={`Ціна: ${price}`}
-            defaultValue={price}
+            value={price}
+            onChange={(e) => setPrice(e.target.value)}
             style={{
               width: "100px",
               padding: "10px",

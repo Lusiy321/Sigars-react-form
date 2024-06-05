@@ -7,6 +7,7 @@ import EditProductForm from "./components/EditProductForm";
 const tg = window.Telegram.WebApp;
 function App() {
   const [products, setProducts] = useState([]);
+  const [userProducts, setUserProducts] = useState([]);
   useEffect(() => {
     tg.ready();
     response();
@@ -16,7 +17,8 @@ function App() {
       const res = await fetch("https://sigars-trade-bot.onrender.com/product");
       const data = await res.json();
       const newData = data.filter((item) => item.quantity > 0);
-      return setProducts(newData);
+      setUserProducts(newData);
+      return setProducts(data);
     } catch (error) {
       console.error("Error fetching products:", error);
     }
@@ -70,7 +72,10 @@ function App() {
           <Route
             path="/order"
             element={
-              <PlaceOrderForm products={products} onSubmit={handlePlaceOrder} />
+              <PlaceOrderForm
+                products={userProducts}
+                onSubmit={handlePlaceOrder}
+              />
             }
           />
           <Route
