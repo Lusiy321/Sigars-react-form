@@ -15,8 +15,8 @@ function App() {
     try {
       const res = await fetch("https://sigars-trade-bot.onrender.com/product");
       const data = await res.json();
-
-      return setProducts(data);
+      const newData = data.filter((item) => item.quantity > 0);
+      return setProducts(newData);
     } catch (error) {
       console.error("Error fetching products:", error);
     }
