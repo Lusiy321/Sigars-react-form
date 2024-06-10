@@ -1,10 +1,13 @@
 import React, { useState } from "react";
 import { ToastContainer, toast, Slide } from "react-toastify";
+import axios from "axios";
 import "react-toastify/dist/ReactToastify.css";
 import "../App.css";
 
 function AddProductForm({ onSubmit }) {
   const [errors, setErrors] = useState({});
+  const [category, setCategory] = useState("sigars");
+  const [imageUrl, setImageUrl] = useState("");
 
   const validateForm = (formData) => {
     const errors = {};
@@ -19,7 +22,51 @@ function AddProductForm({ onSubmit }) {
     if (!formData.get("price") || isNaN(price) || price <= 0) {
       errors.price = "Ціна повинна бути позитивним числом";
     }
+    if (!formData.get("category")) {
+      errors.category = "Категорія обов'язкова";
+    }
+    if (!imageUrl) {
+      errors.image = "Зображення обов'язкове";
+    }
     return errors;
+  };
+
+  const handleImageUpload = async (e) => {
+    const file = e.target.files[0];
+
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("upload", "products");
+
+    try {
+      const response = await axios.post(
+        "https://sigars-trade-bot.onrender.com/upload/",
+        formData
+      );
+
+      setImageUrl(...response.data);
+      toast.success("Зображення завантажено", {
+        position: "top-center",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        transition: Slide,
+      });
+    } catch (error) {
+      toast.error("Помилка завантаження зображення", {
+        position: "top-center",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        transition: Slide,
+      });
+    }
   };
 
   const handleSubmit = (e) => {
@@ -34,6 +81,8 @@ function AddProductForm({ onSubmit }) {
       name: formData.get("name"),
       quantity: parseInt(formData.get("quantity")),
       price: parseInt(formData.get("price")),
+      category: formData.get("category"),
+      url: imageUrl,
     };
     onSubmit(product);
     toast.success("Товар додано", {
@@ -48,6 +97,8 @@ function AddProductForm({ onSubmit }) {
     });
     setErrors({});
     e.target.reset();
+    setCategory("sigars");
+    setImageUrl("");
   };
 
   return (
@@ -111,6 +162,46 @@ function AddProductForm({ onSubmit }) {
         {errors.price && (
           <div style={{ color: "red", fontSize: "12px", marginTop: "5px" }}>
             {errors.price}
+          </div>
+        )}
+      </div>
+      <div style={{ marginBottom: "10px" }}>
+        <select
+          name="category"
+          value={category}
+          onChange={(e) => setCategory(e.target.value)}
+          style={{
+            width: "278px",
+            padding: "10px",
+            borderRadius: "5px",
+            border: "1px solid var(--tg-theme-hint-color)",
+          }}
+        >
+          <option value="sigars">Тютюн</option>
+          <option value="alco">Алкоголь</option>
+          <option value="elf">Ельфбари</option>
+        </select>
+        {errors.category && (
+          <div style={{ color: "red", fontSize: "12px", marginTop: "5px" }}>
+            {errors.category}
+          </div>
+        )}
+      </div>
+      <div style={{ marginBottom: "10px" }}>
+        <input
+          type="file"
+          accept="image/*"
+          onChange={handleImageUpload}
+          style={{
+            width: "278px",
+            padding: "10px",
+            borderRadius: "5px",
+            border: "1px solid var(--tg-theme-hint-color)",
+          }}
+        />
+        {errors.image && (
+          <div style={{ color: "red", fontSize: "12px", marginTop: "5px" }}>
+            {errors.image}
           </div>
         )}
       </div>
